@@ -76,17 +76,6 @@ while True :
     print "Received packet:"
     print 'Dest MAC : ' + eth_addr(eth_arr[0]) + ' Src MAC : ' + eth_addr(eth_arr[1]) + ' Net Protocol : ' + str(net_protocol)
     
-    # OOP for the above parsing code
-    '''
-    eth = Ethernet()
-    eth.dst = eth_arr[0]
-    eth.src = eth_arr[1]
-    eth.net_protocol = socket.ntohs(eth_arr[2])
-    print "Received packet:"    
-    print 'Dest MAC : ' + eth_addr(eth.dst) + ' Src MAC : ' + eth_addr(eth.src) + ' Net Protocol : ' + str(eth.net_protocol)
-    '''
-
-
     # Parse IP packets, IP Protocol number = 8
     if socket.ntohs(eth_arr[2]) == 8 :
 
@@ -178,8 +167,63 @@ while True :
 
 
     # Start packet forwarding and error handling
-
+   '''
+    #Error report
+    def ICMP(check):
+        if check == 1:
+            #TTL EXPIRED
+        else :
+            #net unreachable
+    #Step 0 find type
+    def checkType():
+        if type == arp :
+            updateTable()
+            sendPacket()
+        else :
+            decTTL()
+    #Step 1 decriment TTL   
+    def decTTL():
+        if ttl == 0:
+            ICMP(0)
+        else :
+            ttl = ttl-1
+            findSocket()
+    #Step 2 find outgoing socket      
+    def findSocket():
+       found = false
+       for i in  ip_table:
+            if i == destSocket :
+                found = true
+                computeCheckSum()
+       if found == true :
+            findMAC()
+       else :
+            ICMP(1)
+            sendPacket()
+    #Step 3 compute checkSum
+    def computeCheckSum():
+        checksum = placeholder # new checksum
+        iph = checksum
+    #Step 4 determine dest MAC address
+    def findMAC() :
+        found = false
+        for i in arp_table :
+            if i == macAddress:
+                found == true
+        if found != true
+            destMAC = newMAC
+        sendPacket() 
+     def sendPacket() :        
+            send(packet)
     '''
+  # OOP for the above parsing code
+    '''
+    eth = Ethernet()
+    eth.dst = eth_arr[0]
+    eth.src = eth_arr[1]
+    eth.net_protocol = socket.ntohs(eth_arr[2])
+    print "Received packet:"    
+    print 'Dest MAC : ' + eth_addr(eth.dst) + ' Src MAC : ' + eth_addr(eth.src) + ' Net Protocol : ' + str(eth.net_protocol)
     0. check the ethernet payload is IP or Arp
         if it is Arp, update the arp table accordingly; goto step 5
         else if it is IP, goto step 1
