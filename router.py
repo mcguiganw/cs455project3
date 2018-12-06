@@ -311,7 +311,7 @@ while True :
                 IPL.sequence = sequence
                 IPL.ack = acknowledgement
                 IPL.doff = tcph[4]
-                IPL.flags = tch[5]
+                IPL.flags = tcph[5]
                 IPL.wind = tcph[6]
                 IPL.csum = tcph[7]
                 IPL.UP = tcph[8]
