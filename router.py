@@ -368,7 +368,7 @@ while True :
             # ERROR: Bad addresses
             # Checked after scanning to verify they were at least formatted correctly
             if eth_addr(eth_arr[0]) == eth_addr(eth_arr[1]) :
-                print("ERROR A")
+                print("ERROR A: Section 1")
                 continue
             if eth_addr(eth_arr[1]) == eth_addr(eth_s1) or eth_addr(eth_arr[1]) == eth_addr(eth_s2) or eth_addr(eth_arr[1]) == eth_addr(eth_s3) :
                 print("ERROR B : ATE OWN PACKET")
@@ -407,7 +407,7 @@ while True :
             # ERROR: Bad addresses
             # Checked after scanning to verify they were at least formatted correctly
             if eth_addr(eth_arr[0]) == eth_addr(eth_arr[1]) :
-                print("ERROR A")
+                print("ERROR A : Section 2")
                 continue
             if eth_addr(eth_arr[1]) == eth_addr(eth_s1) or eth_addr(eth_arr[1]) == eth_addr(eth_s2) or eth_addr(eth_arr[1]) == eth_addr(eth_s3) :
                 print("ERROR B : ATE OWN PACKET")
@@ -586,8 +586,7 @@ while True :
     #        if matching found in the arp table
     #           overwrite the dest mac addrres; determine the outgoing socket; send the packet; remove from the queue
     print("Scanning Queue...")
-    if len(packet_queue) > 0:
-        while 0 < len(packet_queue):
+        while len(packet_queue) > 0:
             packet = packet_queue[i]
             DIP = packet.payload.daddr
             try:
