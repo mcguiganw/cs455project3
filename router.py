@@ -587,8 +587,7 @@ while True :
     #           overwrite the dest mac addrres; determine the outgoing socket; send the packet; remove from the queue
     print("Scanning Queue...")
     if len(packet_queue) > 0:
-        i = 0
-        while i < len(packet_queue):
+        while 0 < len(packet_queue):
             packet = packet_queue[i]
             DIP = packet.payload.daddr
             try:
@@ -608,7 +607,7 @@ while True :
                 print(eth_addr(packet.src) + " : " + eth_addr(packet.dst))
                 packAndSend(packet, sock)
                 print("Sent packet")
-                del(packet_queue[i])
+                del(packet_queue[0])
                 continue
 
             except Exception:
