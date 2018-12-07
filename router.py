@@ -124,8 +124,8 @@ class IP(object):
         
 class TCP(object):
     def __init__(self) :
-        self.sport = None
-        self.dport = None
+        self.portin = None
+        self.portout = None
         self.sequence = None
         self.ack = None
         self.doff = None
@@ -136,19 +136,19 @@ class TCP(object):
         self.data = None
 
     def package(self) :
-        pc = pack('!HHLLBBHHH', self.sport, self.dport, self.sequence, self.ack, (self.doff << 4) & self.flags, self.flags, self.wind, self.csum, self.UP)
+        pc = pack('!HHLLBBHHH', self.portin, self.portout, self.sequence, self.ack, (self.doff << 4) & self.flags, self.flags, self.wind, self.csum, self.UP)
         return pc + ("" if data is None else "".join(data))
 
 class UDP(object):
     def __init__(self) :
-        self.sport = None
-        self.dport = None
+        self.portin = None
+        self.portout = None
         self.length = None
         self.csum = None
         self.data = None
 
     def package(self) :
-        pc = pack('!HHHH', self.sport, self.dport, self.length, self.csum)
+        pc = pack('!HHHH', self.portin, self.portout, self.length, self.csum)
         return pc + ("" if data is None else "".join(data))
 
 class ICMP(object):
@@ -294,8 +294,8 @@ while True :
 
                 # Fill IP payload
                 IPL = TCP()
-                IPL.sport = source_port
-                IPL.dport = dest_port
+                IPL.portin = source_port
+                IPL.portout = dest_port
                 IPL.sequence = sequence
                 IPL.ack = acknowledgement
                 IPL.doff = tcph[4]
@@ -359,8 +359,8 @@ while True :
 
                 # Fill IP payload
                 IPL = UDP()
-                IPL.sport = source_port
-                IPL.dport = dest_port
+                IPL.portin = source_port
+                IPL.portout = dest_port
                 IPL.length = length
                 IPL.csum = checksum
                 IPL.data = data
