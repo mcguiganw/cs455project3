@@ -369,10 +369,10 @@ while True :
             # Checked after scanning to verify they were at least formatted correctly
             if eth_addr(eth_arr[0]) == eth_addr(eth_arr[1]) :
                 print("ERROR A: Section 1")
-                break
+                continue
             if eth_addr(eth_arr[1]) == eth_addr(eth_s1) or eth_addr(eth_arr[1]) == eth_addr(eth_s2) or eth_addr(eth_arr[1]) == eth_addr(eth_s3) :
                 print("ERROR B : ATE OWN PACKET")
-                break
+                continue
 
 
         # Start packet forwarding and error handling
