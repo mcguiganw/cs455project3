@@ -202,6 +202,8 @@ def getSock(MAC):
 IPTS = { "192.168.1.1" : socket1, "192.168.2.1" : socket2, "192.168.3.1" : socket3}
 STIP = {v : k for k, v in IPTS.items()}
 
+
+    
 while True :
     while True:        
         packet = s.recvfrom(65565)
@@ -481,9 +483,7 @@ while True :
             EPL.daddr = temp
             
             # Fix checksum?
-            EPL.csum = 0x10000 + (EPL.csum -EPL.ttl<<8) % 0x10000
-            EPL.ttl = 255
-            EPL.csum = (EPL.csum + 255<<8) % 0x10000
+            setCheckSum()
             
             EPL.payload = Report
             temp = eth.src
@@ -505,11 +505,8 @@ while True :
             temp = EPL.saddr
             EPL.saddr = EPL.daddr
             EPL.daddr = temp
-            
-            # Fix checksum?
-            EPL.csum = 0x10000 + (EPL.csum -EPL.ttl<<8) % 0x10000
-            EPL.ttl = 255
-            EPL.csum = (EPL.csum + 255<<8) % 0x10000
+          
+            setCheckSum()
             
             EPL.payload = Report
             temp = eth.src
@@ -549,9 +546,7 @@ while True :
             EPL.saddr = EPL.daddr
             EPL.daddr = temp
             # Fix checksum?
-            EPL.csum = 0x10000 + (EPL.csum -EPL.ttl<<8) % 0x10000
-            EPL.ttl = 255
-            EPL.csum = (EPL.csum + 255<<8) % 0x10000
+            setCheckSum()
             
             EPL.payload = Report
             
@@ -564,19 +559,24 @@ while True :
             packAndSend(eframe, sock)
             print("Sent ICMP Error")
             break
-            
-        
-        
-        #3. compute the new checksum and overwrite it in the ip header; goto step 4
 
-        EPL.csum = (0x10000 + (EPL.csum - 0x100)) % 0x10000
-        
+            #3. compute the new checksum and overwrite it in the ip header; goto step 4
+        def setCheckSum():       
+            EPL.csum = 0
+            temp = EPL.package()
+            total = 0
+            mod = 1
+            for char in temp:
+                char = ord(char)
+                total = total + char * (1 + i * 255)
+                i = i - 1
+            while total > 0x10000:
+                total = (total % 0x10000)+(total // 0x10000)
+            EPL.csyn = total ^ 0xFFFF
+            
         #4. determine the new dest mac addrres by checking the arp table
         #    if no matching found in the arp table, put the packet in the queue; goto step 5
-        #    else overwrite the dest mac addrres and send the packet using the socket choosen in step 2; goto step 5
 
-        # May as well be step five
-        # Enqueue packet
         print("New packet added to queue")
         packet_queue.append(eth)
         break
