@@ -586,7 +586,7 @@ while True :
     #        if matching found in the arp table
     #           overwrite the dest mac addrres; determine the outgoing socket; send the packet; remove from the queue
     print("Scanning Queue...")
-    while len(packet_queue) >= 0:
+    while len(packet_queue) > 0:
             packet = packet_queue[0]
             DIP = packet.payload.daddr
             try:
@@ -621,7 +621,6 @@ while True :
                 arppack.psize = 4
                 arppack.op = 1
                 arppack.tipa = DIP
-                packet_queue.pop(0)
                 for sock in sockets:
                     arppack.sipa = STIP[sock]
                     print(arppack.sipa)
