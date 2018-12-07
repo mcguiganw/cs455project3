@@ -587,7 +587,7 @@ while True :
     #           overwrite the dest mac addrres; determine the outgoing socket; send the packet; remove from the queue
     print("Scanning Queue...")
     while len(packet_queue) > 0:
-            packet = packet_queue[i]
+            packet = packet_queue[0]
             DIP = packet.payload.daddr
             try:
                 print("Requesting " + DIP)
