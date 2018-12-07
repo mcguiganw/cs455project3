@@ -205,7 +205,7 @@ STIP = {v : k for k, v in IPTS.items()}
 while True :
     while True:        
         packet = s.recvfrom(65565)
-        #packet = packet[0]
+        packet = packet[0]
 
         #Parse ethernet header
         eth_length = 14
