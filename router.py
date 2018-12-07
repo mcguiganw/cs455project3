@@ -419,7 +419,7 @@ while True :
             # Get socket of receiver
 
             IIP = convertIP(EPL.sipa)
-            sock = IPTS[EPL.tipa]
+            sock = IPTS.get(EPL.tipa)
             print("Filling ip forwarding table...")
             for i in range(32):
                 mask = IIP // (2**(31-i))
