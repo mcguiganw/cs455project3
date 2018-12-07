@@ -206,8 +206,6 @@ STIP = {v : k for k, v in IPTS.items()}
     
 while True :
     while True:
-        while len(packet) > 0:
-            packet.pop()
         packet = s.recvfrom(65565)
         packet = packet[0]
 
