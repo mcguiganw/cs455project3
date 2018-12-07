@@ -572,8 +572,8 @@ while True :
                 i = i - 1
             while total > 0x10000:
                 total = (total % 0x10000)+(total // 0x10000)
-            EPL.csyn = total ^ 0xFFFF
-            
+            EPL.csum = total ^ 0xFFFF
+            return
         #4. determine the new dest mac addrres by checking the arp table
         #    if no matching found in the arp table, put the packet in the queue; goto step 5
 
