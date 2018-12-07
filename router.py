@@ -606,7 +606,7 @@ while True :
                 print(eth_addr(packet.src) + " : " + eth_addr(packet.dst))
                 packAndSend(packet, sock)
                 print("Sent packet")
-                del(packet_queue[0])
+                packet_queue.pop(0)
                 continue
 
             except Exception:
