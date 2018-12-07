@@ -30,13 +30,6 @@ eth_s2 = chr(0x00) + chr(0x00) + chr(0x00) + chr(0x00) + chr(0x00) + chr(0x02)
 eth_s3 = chr(0x00) + chr(0x00) + chr(0x00) + chr(0x00) + chr(0x00) + chr(0x03)
 eth_udest = chr(0xFF) + chr(0xFF) + chr(0xFF) + chr(0xFF) + chr(0xFF) + chr(0xFF)
 
-# I'm going to assume that the number of packet switches is going to stay consistent...
-# Because otherwise this project literally becomes impossible without reading the createNet.py file...
-
-# No.  Seriously.  There's no way to get the interface names of the router!
-# I have spent literal hours trying to find a way, when one simply does not exist!
-# If there is a way, it sure isn't worth 1% of my grade to find it!
-
 socket1 = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
 socket1.bind(("r0-eth1", 0))
 socket2 = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
@@ -45,9 +38,6 @@ socket3 = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
 socket3.bind(("r0-eth3", 0))
 
 sockets = {socket1 : eth_s1, socket2 : eth_s2, socket3 : eth_s3}
-
-# The only other way for me to do this would be by cheekily doing something like this:
-
 '''
 builder = None
 with open("createNet.py", "r") as network:
@@ -209,25 +199,21 @@ def getSock(MAC):
 # Receive a packet
 
 # This is the IP address of the router.
-# As far as I can tell, it's impossible to get it via any means, so I'm saving it here
-# That's right!  I give up!
-
 IPTS = { "192.168.1.1" : socket1, "192.168.2.1" : socket2, "192.168.3.1" : socket3}
 STIP = {v : k for k, v in IPTS.items()}
 
 while True :
     while True:        
         packet = s.recvfrom(65565)
-        packet = packet[0]
+        #packet = packet[0]
 
-        # Parse ethernet header
+        #Parse ethernet header
         eth_length = 14
         eth_header = packet[:eth_length]
         eth_arr = unpack('!6s6sH' , eth_header)
         net_protocol = socket.ntohs(eth_arr[2])
 
         # OOP for the above parsing code
-
         eth = Ethernet()
         eth.dst = eth_arr[0]
         eth.src = eth_arr[1]
@@ -394,7 +380,7 @@ while True :
         #    if it is Arp, update the arp table accordingly; goto step 5
         #    else if it is IP, goto step 1
 
-        # Case: ARP (I think?)
+        # Case: ARP
         if eth.net_protocol == 1544 :
 
             # IP header is ARP, unpack ARP
